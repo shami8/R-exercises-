@@ -2,13 +2,9 @@ Getting and Cleaning Data: Quiz 1
 
 Question 1
 The American Community Survey distributes downloadable data about United States communities. Download the 2006 microdata survey about housing for the state of Idaho using download.file() from here:
-
 https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv
-
 and load the data into R. The code book, describing the variable names is here:
-
 https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FPUMSDataDict06.pdf
-
 How many properties are worth $1,000,000 or more?
 
 solution:
@@ -20,18 +16,30 @@ solution:
 > download.file(url, destfile = "./data/my.csv", method = "curl")
 # Here just to see if the data are in the file
 > list.files("./data")
-
 # Read the data and save it as a new variable
 > mydata <- read.csv("./data/my.csv")
 # calling the labrary dplyr (the are easier way but I preffer this one)
 > library (dplyr)
-
 #the number of rows with the value whick equal to 24 (>= 1000000)
 > number <- filter (thedata, VAL == 24)
-
 # count the number
 > count (number)
    n
 1 53
+Question 2:
 
-file
+Question 3:
+
+
+Question 4:
+Read the XML data on Baltimore restaurants from here:
+https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml.
+How many restaurants have zipcode 21231? 
+
+Solution:
+> url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+> download.file(url, destfile = "./data/restaurants.xml", method = "curl")
+> dateDownloaded <- date() #can be skipped just to sabe the date of the dowloading
+> my_xml_doc <- xmlTreeParse("./data/restaurants.xml", useInternal = TRUE) 
+> Rootnode <- xmlRoot(my_xml_doc) # can be skipped too, we just make sure the root node exists 
+> sum (xpathSApply(rootNode, ".//zipcode", xmlValue)=="21231")
