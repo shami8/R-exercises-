@@ -27,19 +27,45 @@ solution:
    n
 1 53
 Question 2:
-
+Use the data you loaded from Question 1. Consider the variable FES in the code book. Which of the "tidy data" principles does this variable violate? 
+Tidy data has one variable per column
 Question 3:
 
+Download the Excel spreadsheet on Natural Gas Aquisition Program here: 
+
+ https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx 
+
+Read rows 18-23 and columns 7-15 into R and assign the result to a variable called:
+
+dat
+what is the value of :
+
+sum(dat$Zip*dat$Ext,na.rm=T)
+Solution:::
+
+> fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx"
+> download.file(fileUrl, destfile="./data/ngaaa.xlsx", method="curl")
+> dat <- read.xlsx("ngaaa.xlsx", sheetIndex = 1, rowIndex = 18:23, colIndex = 7:15)
+> head(dat)
 
 Question 4:
 Read the XML data on Baltimore restaurants from here:
 https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml.
 How many restaurants have zipcode 21231? 
 
-Solution:
+Solution (1):
 > url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
 > download.file(url, destfile = "./data/restaurants.xml", method = "curl")
 > dateDownloaded <- date() #can be skipped just to sabe the date of the dowloading
 > my_xml_doc <- xmlTreeParse("./data/restaurants.xml", useInternal = TRUE) 
 > Rootnode <- xmlRoot(my_xml_doc) # can be skipped too, we just make sure the root node exists 
 > sum (xpathSApply(rootNode, ".//zipcode", xmlValue)=="21231")
+
+Solution (2)
+> ddd <- read_xml("http://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml")
+# Find all the node called zipcode
+> zipcodes <- xml_find_all(ddd, "//zipcode")
+#find how many of the qual to 21231
+> sum(xml_sum(xml_text(zipcodes) == "21231")
+
+Question 5:
